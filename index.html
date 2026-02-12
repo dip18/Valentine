@@ -61,6 +61,7 @@ button {
 #yesBtn {
     background-color: #ff2e63;
     color: white;
+    z-index: 5;
 }
 
 #yesBtn:hover {
@@ -68,10 +69,15 @@ button {
     transform: scale(1.1);
 }
 
+/* NO button fixed */
 #noBtn {
     background-color: #444;
     color: white;
     position: absolute;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
 }
 
 #result {
@@ -132,18 +138,22 @@ footer {
 </footer>
 
 <script>
-// Move No button randomly
+// Move No button randomly within screen
 const noBtn = document.getElementById("noBtn");
 
 function moveButton() {
-    const x = Math.random() * (window.innerWidth - 100);
-    const y = Math.random() * (window.innerHeight - 50);
+    const btnWidth = noBtn.offsetWidth;
+    const btnHeight = noBtn.offsetHeight;
+
+    const x = Math.random() * (window.innerWidth - btnWidth);
+    const y = Math.random() * (window.innerHeight - btnHeight);
+
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
 }
 
 noBtn.addEventListener("mouseover", moveButton);
-noBtn.addEventListener("touchstart", moveButton);
+noBtn.addEventListener("touchstart", moveButton); // for mobile tap
 
 // Yes button action
 document.getElementById("yesBtn").addEventListener("click", function() {
@@ -157,3 +167,24 @@ function createFloatingHearts() {
     heart.classList.add("heart");
     heart.innerHTML = "💖";
     heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+    heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 6000);
+}
+
+setInterval(createFloatingHearts, 500);
+
+// Celebration burst on Yes click
+function createHeartsBurst() {
+    for (let i = 0; i < 25; i++) {
+        createFloatingHearts();
+    }
+}
+</script>
+
+</body>
+</html>
