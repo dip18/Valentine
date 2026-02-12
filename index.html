@@ -61,10 +61,10 @@ button {
     color: white;
     position: absolute;
     z-index: 10;
-    top: 50%;          /* align vertically with Yes */
-    left: 60%;         /* slightly right to Yes button */
+    top: 50%;
+    left: 60%;
     transform: translate(-50%, -50%);
-    pointer-events: auto; /* allow hover events but not clickable after */
+    pointer-events: auto;
 }
 
 #result {
@@ -159,6 +159,10 @@ setInterval(createFloatingHearts, 500);
 document.getElementById("yesBtn").addEventListener("click", function() {
     document.getElementById("result").style.display = "block";
     createHeartsBurst();
+
+    // Hide the NO button when YES is clicked
+    const noBtn = document.getElementById("noBtn");
+    noBtn.style.display = "none";
 });
 
 // Celebrate burst of hearts
@@ -171,17 +175,16 @@ function createHeartsBurst() {
 // NO button moving logic
 const noBtn = document.getElementById("noBtn");
 
-// Make it effectively unclickable
+// Make it unclickable
 noBtn.addEventListener("click", function(e) {
     e.preventDefault();
 });
 
-// Move only in upper section (top half) when hovered
+// Move only in upper section when hovered
 noBtn.addEventListener("mouseover", function() {
     const btnWidth = noBtn.offsetWidth;
     const btnHeight = noBtn.offsetHeight;
 
-    // Only move in top 40% of screen
     const maxY = window.innerHeight * 0.4 - btnHeight;
     const maxX = window.innerWidth - btnWidth;
 
