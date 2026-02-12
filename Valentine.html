@@ -1,0 +1,168 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+<title>Be My Valentine 💖</title>  
+  
+<style>  
+body {  
+    margin: 0;  
+    padding: 0;  
+    height: 100vh;  
+    overflow: hidden;  
+    font-family: 'Poppins', sans-serif;  
+    display: flex;  
+    justify-content: center;  
+    align-items: center;  
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);  
+}  
+  
+/* Floating hearts */  
+.heart {  
+    position: absolute;  
+    bottom: -20px;  
+    font-size: 20px;  
+    animation: floatUp 6s linear infinite;  
+    opacity: 0.8;  
+}  
+  
+@keyframes floatUp {  
+    0% { transform: translateY(0); opacity: 1; }  
+    100% { transform: translateY(-110vh); opacity: 0; }  
+}  
+  
+.container {  
+    background: white;  
+    padding: 35px 25px;  
+    border-radius: 20px;  
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);  
+    text-align: center;  
+    position: relative;  
+    max-width: 90%;  
+    width: 350px;  
+}  
+  
+h1 {  
+    color: #ff2e63;  
+    font-size: 22px;  
+}  
+  
+button {  
+    padding: 12px 20px;  
+    font-size: 16px;  
+    border: none;  
+    border-radius: 25px;  
+    cursor: pointer;  
+    margin: 10px;  
+    transition: 0.3s;  
+}  
+  
+#yesBtn {  
+    background-color: #ff2e63;  
+    color: white;  
+}  
+  
+#yesBtn:hover {  
+    background-color: #e60039;  
+    transform: scale(1.1);  
+}  
+  
+#noBtn {  
+    background-color: #444;  
+    color: white;  
+    position: absolute;  
+}  
+  
+#result {  
+    display: none;  
+    margin-top: 20px;  
+}  
+  
+#result img {  
+    width: 200px;  
+    border-radius: 15px;  
+    margin-top: 10px;  
+}  
+  
+footer {  
+    position: absolute;  
+    bottom: 10px;  
+    width: 100%;  
+    text-align: center;  
+    color: white;  
+    font-size: 14px;  
+}  
+</style>  
+</head>  
+  
+<body>  
+  
+<!-- Background Music -->  
+<audio id="bgMusic" autoplay loop>  
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">  
+</audio>  
+  
+<div class="container">  
+    <h1>Will you be my valentine? 💖</h1>  
+    <button id="yesBtn">Yes 💘</button>  
+    <button id="noBtn">No 😢</button>  
+  
+    <div id="result">  
+        <h2>This is the best decision 💞</h2>  
+        <h3>I love you!!! ❤️</h3>  
+        <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif">  
+    </div>  
+</div>  
+  
+<footer>  
+    developed by Dip  
+</footer>  
+  
+<script>  
+// Move No button randomly  
+const noBtn = document.getElementById("noBtn");  
+  
+function moveButton() {  
+    const x = Math.random() * (window.innerWidth - 100);  
+    const y = Math.random() * (window.innerHeight - 50);  
+    noBtn.style.left = x + "px";  
+    noBtn.style.top = y + "px";  
+}  
+  
+noBtn.addEventListener("mouseover", moveButton);  
+noBtn.addEventListener("touchstart", moveButton);  
+  
+// Yes button action  
+document.getElementById("yesBtn").addEventListener("click", function() {  
+    document.getElementById("result").style.display = "block";  
+    createHeartsBurst();  
+});  
+  
+// Floating background hearts  
+function createFloatingHearts() {  
+    const heart = document.createElement("div");  
+    heart.classList.add("heart");  
+    heart.innerHTML = "💖";  
+    heart.style.left = Math.random() * 100 + "vw";  
+    heart.style.fontSize = (Math.random() * 20 + 15) + "px";  
+    heart.style.animationDuration = (Math.random() * 3 + 3) + "s";  
+    document.body.appendChild(heart);  
+  
+    setTimeout(() => {  
+        heart.remove();  
+    }, 6000);  
+}  
+  
+setInterval(createFloatingHearts, 500);  
+  
+// Celebration burst on Yes click  
+function createHeartsBurst() {  
+    for (let i = 0; i < 25; i++) {  
+        createFloatingHearts();  
+    }  
+}  
+</script>  
+  
+</body>  
+</html>  
