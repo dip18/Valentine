@@ -18,20 +18,6 @@ body {
     background: linear-gradient(135deg, #ff758c, #ff7eb3);
 }
 
-/* Floating hearts */
-.heart {
-    position: absolute;
-    bottom: -20px;
-    font-size: 20px;
-    animation: floatUp 6s linear infinite;
-    opacity: 0.8;
-}
-
-@keyframes floatUp {
-    0% { transform: translateY(0); opacity: 1; }
-    100% { transform: translateY(-110vh); opacity: 0; }
-}
-
 .container {
     background: white;
     padding: 35px 25px;
@@ -69,15 +55,16 @@ button {
     transform: scale(1.1);
 }
 
-/* NO button fixed */
+/* NO button starts parallel to YES */
 #noBtn {
     background-color: #444;
     color: white;
     position: absolute;
-    top: 50%; 
-    left: 50%;
-    transform: translate(-50%, -50%);
     z-index: 10;
+    top: 50%;          /* align vertically with Yes */
+    left: 60%;         /* slightly right to Yes button */
+    transform: translate(-50%, -50%);
+    pointer-events: auto; /* allow hover events but not clickable after */
 }
 
 #result {
@@ -89,6 +76,20 @@ button {
     width: 200px;
     border-radius: 15px;
     margin-top: 10px;
+}
+
+/* Floating hearts */
+.heart {
+    position: absolute;
+    bottom: -20px;
+    font-size: 20px;
+    animation: floatUp 6s linear infinite;
+    opacity: 0.8;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-110vh); opacity: 0; }
 }
 
 /* Cute Valentine Footer */
@@ -116,7 +117,6 @@ footer {
 
 <body>
 
-<!-- Background Music -->
 <audio id="bgMusic" autoplay loop>
   <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
 </audio>
@@ -138,29 +138,6 @@ footer {
 </footer>
 
 <script>
-// Move No button randomly within screen
-const noBtn = document.getElementById("noBtn");
-
-function moveButton() {
-    const btnWidth = noBtn.offsetWidth;
-    const btnHeight = noBtn.offsetHeight;
-
-    const x = Math.random() * (window.innerWidth - btnWidth);
-    const y = Math.random() * (window.innerHeight - btnHeight);
-
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
-}
-
-noBtn.addEventListener("mouseover", moveButton);
-noBtn.addEventListener("touchstart", moveButton); // for mobile tap
-
-// Yes button action
-document.getElementById("yesBtn").addEventListener("click", function() {
-    document.getElementById("result").style.display = "block";
-    createHeartsBurst();
-});
-
 // Floating background hearts
 function createFloatingHearts() {
     const heart = document.createElement("div");
@@ -178,12 +155,56 @@ function createFloatingHearts() {
 
 setInterval(createFloatingHearts, 500);
 
-// Celebration burst on Yes click
+// YES button action
+document.getElementById("yesBtn").addEventListener("click", function() {
+    document.getElementById("result").style.display = "block";
+    createHeartsBurst();
+});
+
+// Celebrate burst of hearts
 function createHeartsBurst() {
     for (let i = 0; i < 25; i++) {
         createFloatingHearts();
     }
 }
+
+// NO button moving logic
+const noBtn = document.getElementById("noBtn");
+
+// Make it effectively unclickable
+noBtn.addEventListener("click", function(e) {
+    e.preventDefault();
+});
+
+// Move only in upper section (top half) when hovered
+noBtn.addEventListener("mouseover", function() {
+    const btnWidth = noBtn.offsetWidth;
+    const btnHeight = noBtn.offsetHeight;
+
+    // Only move in top 40% of screen
+    const maxY = window.innerHeight * 0.4 - btnHeight;
+    const maxX = window.innerWidth - btnWidth;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+});
+
+// Mobile touch support
+noBtn.addEventListener("touchstart", function() {
+    const btnWidth = noBtn.offsetWidth;
+    const btnHeight = noBtn.offsetHeight;
+    const maxY = window.innerHeight * 0.4 - btnHeight;
+    const maxX = window.innerWidth - btnWidth;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+});
 </script>
 
 </body>
